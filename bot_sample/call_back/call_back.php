@@ -1,6 +1,6 @@
 <?php
  
-$accessToken = 'fP+JfiO9YOKkddAPqTRWrcZWE6k1H7VMgNRLEq2ZW8rK+qsw1vwe9bS9N+pD5jdYoO8j7KERUIUnTr7Al6N/xZbQUvSbLcUeLL22ff7Bylx0lAFfU3rTAOQxkz3Ra7MbKYthsHhjWQvR8UBKtbUTzgdB04t89/1O/w1cDnyilFU=';
+$accessToken = 'QMWZXjlgVbI1eyWO+nlH7Q0VBWc/fnnlDVppIkcAwKeoPgQps8HuibW4W16nDgpi/HS4+1bcrRIxqDyDclsfUrQC8Gkyxiv/+Qi33dDqos1nGRsN0F18y5e5xGVEaNrul0BwJE2lKX6AFn0YArEfSQdB04t89/1O/w1cDnyilFU=';
  
 //ユーザーからのメッセージ取得
 $json_string = file_get_contents('php://input');
@@ -19,8 +19,8 @@ $return_message_text = "「" . $message_text . "」ｗｗｗ";
  
 //返信実行
 sending_messages($accessToken, $replyToken, $message_type, $return_message_text);
-?>
-<?php
+
+
 //メッセージの送信
 function sending_messages($accessToken, $replyToken, $message_type, $return_message_text){
     //レスポンスフォーマット
@@ -48,4 +48,3 @@ function sending_messages($accessToken, $replyToken, $message_type, $return_mess
     $result = curl_exec($ch);
     curl_close($ch);
 }
-?>
