@@ -17,16 +17,19 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
     //LINEBOTにPOSTで送られてきた生データの取得
     $inputData = file_get_contents("php://input");
     
-    error_log("y--------" . print_r(SECRET_TOKEN,true));
+    error_log("y--------" . print_r($inputData,true));
     
     //LINEBOTSDKの設定
     $httpClient = new CurlHTTPClient(ACCESS_TOKEN);
     
-    error_log("y--------" . print_r($httpClient,true));
+//    error_log("y--------" . print_r($inputData,true));
     
     $Bot = new LINEBot($httpClient, ['channelSecret' => SECRET_TOKEN]);
-    $signature = $_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE]; 
-    $Events = $Bot->parseEventRequest($InputData, $Signature);
+    $signature = $_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE];
+    
+    error_log("y--------" . print_r($signature,true));
+     
+    $Events = $Bot->parseEventRequest($inputData, $signature);
     
     //大量にメッセージが送られると複数分のデータが同時に送られてくるため、foreachをしている。
     foreach($Events as $event){
