@@ -17,14 +17,14 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
     //LINEBOTにPOSTで送られてきた生データの取得
     $inputData = file_get_contents("php://input");
     
-    error_log(print_r(SECRET_TOKEN,true));
+    error_log("y--------" . print_r(SECRET_TOKEN,true));
     
     //LINEBOTSDKの設定
     $httpClient = new CurlHTTPClient(ACCESS_TOKEN);
     
-    error_log(print_r($httpClient,true));
+    error_log("y--------" . print_r($httpClient,true));
     
-    $Bot = new LINEBot($HttpClient, ['channelSecret' => SECRET_TOKEN]);
+    $Bot = new LINEBot($httpClient, ['channelSecret' => SECRET_TOKEN]);
     $signature = $_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE]; 
     $Events = $Bot->parseEventRequest($InputData, $Signature);
     
