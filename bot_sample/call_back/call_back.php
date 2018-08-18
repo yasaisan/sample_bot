@@ -14,16 +14,21 @@ require_once(__DIR__."/../../vendor/autoload.php");
 //LINEから送られてきたらtrueになる
 if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 
-//LINEBOTにPOSTで送られてきた生データの取得
-  $inputData = file_get_contents("php://input");
-
-//LINEBOTSDKの設定
-  $httpClient = new CurlHTTPClient(ACCESS_TOKEN);
-  $Bot = new LINEBot($HttpClient, ['channelSecret' => SECRET_TOKEN]);
-  $signature = $_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE]; 
-  $Events = $Bot->parseEventRequest($InputData, $Signature);
-
-//大量にメッセージが送られると複数分のデータが同時に送られてくるため、foreachをしている。
+    //LINEBOTにPOSTで送られてきた生データの取得
+    $inputData = file_get_contents("php://input");
+    
+    error_log(print_r(SECRET_TOKEN,true));
+    
+    //LINEBOTSDKの設定
+    $httpClient = new CurlHTTPClient(ACCESS_TOKEN);
+    
+    error_log(print_r($httpClient,true));
+    
+    $Bot = new LINEBot($HttpClient, ['channelSecret' => SECRET_TOKEN]);
+    $signature = $_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE]; 
+    $Events = $Bot->parseEventRequest($InputData, $Signature);
+    
+    //大量にメッセージが送られると複数分のデータが同時に送られてくるため、foreachをしている。
     foreach($Events as $event){
         $SendMessage = new MultiMessageBuilder();
         $TextMessageBuilder = new TextMessageBuilder("よろぽん！");
