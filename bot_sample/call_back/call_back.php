@@ -40,7 +40,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
      
     $Events = $Bot->parseEventRequest($inputData, $signature);
     
-    error_log("y--------" . print_r($signature,true));
+    error_log("y--------" . print_r($Events,true));
     
     //大量にメッセージが送られると複数分のデータが同時に送られてくるため、foreachをしている。
     foreach($Events as $event){
