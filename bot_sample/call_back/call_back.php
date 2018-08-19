@@ -11,6 +11,15 @@ use \LINE\LINEBot\Constant\HTTPHeader;
 //LINESDKの読み込み
 require_once(__DIR__."/../../vendor/autoload.php");
 
+$list = array(
+    "大吉",
+    "中吉",
+    "小吉",
+    "末吉",
+    "吉",
+    "凶",
+);
+
 //LINEから送られてきたらtrueになる
 if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 
@@ -27,9 +36,11 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
     $Bot = new LINEBot($httpClient, ['channelSecret' => SECRET_TOKEN]);
     $signature = $_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE];
     
-    error_log("y--------" . print_r($signature,true));
+//    error_log("y--------" . print_r($signature,true));
      
     $Events = $Bot->parseEventRequest($inputData, $signature);
+    
+    error_log("y--------" . print_r($signature,true));
     
     //大量にメッセージが送られると複数分のデータが同時に送られてくるため、foreachをしている。
     foreach($Events as $event){
