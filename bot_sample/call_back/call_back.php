@@ -4,6 +4,8 @@ DEFINE("SECRET_TOKEN","62aa32a57fa6748ff49014ee153dff51");
 
 use \LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use \LINE\LINEBot;
+//use LINE\LINEBot\Event\MessageEvent;
+use LINE\LINEBot\Event\MessageEvent\TextMessage;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 use \LINE\LINEBot\Constant\HTTPHeader;
@@ -43,9 +45,14 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
     error_log("y--------" . print_r($Events,true));
     
     //大量にメッセージが送られると複数分のデータが同時に送られてくるため、foreachをしている。
-    foreach($Events as $event){
+    foreach ($Events as $event) {
+        if (!($event instanceof TextMessage)) {
+//            $logger->info('Non text message has come');
+            continue;
+        }
+        error_log("y--------" . print_r($event->getText(), true));
         $SendMessage = new MultiMessageBuilder();
-        $TextMessageBuilder = new TextMessageBuilder("よろぽん！");
+        $TextMessageBuilder = new TextMessageBuilder($event->getText());
         $SendMessage->add($TextMessageBuilder);
         $Bot->replyMessage($event->getReplyToken(), $SendMessage);
     }
