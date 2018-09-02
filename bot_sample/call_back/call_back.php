@@ -81,13 +81,16 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         $curlResponse = curlRequest($translateUrl);
 
         // 翻訳結果はxmlで帰ってくるのでそれを読み込みます
-        $translatedStr = simplexml_load_string($curlResponse);
+//        $translatedStr = simplexml_load_string($curlResponse);
         
         error_log("curlResponse-------- : " . print_r($curlResponse, true));
-        error_log("transrateText-------- : " . print_r($translatedStr[0], true));
+        preg_match('/>(.+?)<\/string>/',$curlResponse, $m);
+        $transrateInputText = $m[1];
+        error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
+//        error_log("transrateText-------- : " . print_r($translatedStr[0], true));
 
         $SendMessage = new MultiMessageBuilder();
-        $TextMessageBuilder = new TextMessageBuilder($translatedStr[0]);
+        $TextMessageBuilder = new TextMessageBuilder($transrateInputText);
         $SendMessage->add($TextMessageBuilder);
         $Bot->replyMessage($event->getReplyToken(), $SendMessage);
     }
