@@ -83,10 +83,10 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         // 翻訳結果はxmlで帰ってくるのでそれを読み込みます
         $translatedStr = simplexml_load_string($curlResponse);
         
-        error_log("transrateText-------- : " . print_r($translatedStr, true));
+        error_log("transrateText-------- : " . print_r($translatedStr[0], true));
 
         $SendMessage = new MultiMessageBuilder();
-        $TextMessageBuilder = new TextMessageBuilder($translatedStr);
+        $TextMessageBuilder = new TextMessageBuilder($translatedStr[0]);
         $SendMessage->add($TextMessageBuilder);
         $Bot->replyMessage($event->getReplyToken(), $SendMessage);
     }
