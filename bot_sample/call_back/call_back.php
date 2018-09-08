@@ -122,7 +122,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
             $TemplateMessageBuilder = new TemplateMessageBuilder(
                     'alt test', new ImageCarouselTemplateBuilder($image_carousel_info)
             );
-            array_push($replyInfo, $TemplateMessageBuilder);
+//            array_push($replyInfo, $TemplateMessageBuilder);
         } else {
             $TextMessageBuilder = new TextMessageBuilder("画像は見つかりませんでした");
             array_push($replyInfo, $TextMessageBuilder);
