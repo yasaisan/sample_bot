@@ -114,7 +114,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 //                $image_carousel_info["imageUrl"] = $ori_url;
 //              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url);
                 $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, new TextMessageBuilder($transrateInputText));
-                array_push($image_carousel_info, $ImageCarouselTemplateBuilder);
+                array_push($image_carousel_info, $ImageCarouselColumnTemplateBuilder);
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
                 $count++;
