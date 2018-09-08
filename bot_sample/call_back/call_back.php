@@ -122,6 +122,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
                 $count++;
+                error_log("image_carousel_info-------- : " . print_r($image_carousel_info, true));
             }
             $TemplateMessageBuilder = new TemplateMessageBuilder(
                     'alt test', new ImageCarouselTemplateBuilder($image_carousel_info)
@@ -133,7 +134,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
             //メッセージ返却
 //            replyMessage($Bot, $reply_token, "画像は見つかりませんでした");
         }
-         error_log("replyInfo-------- : " . print_r($replyInfo, true));
+//         error_log("replyInfo-------- : " . print_r($replyInfo, true));
         // 返信
         replyMultiInfo($Bot, $reply_token, $replyInfo);
     }
@@ -169,7 +170,7 @@ function replyMultiInfo($bot, $token, $msgs) {
     foreach ($msgs as $value) {
         $SendMessage->add($value);
     }
-    error_log("SendMessage-------- : " . print_r($SendMessage, true));
+//    error_log("SendMessage-------- : " . print_r($SendMessage, true));
     $res = $bot->replyMessage($token, $SendMessage);
     if (!$res->isSucceeded()) {
         error_log("ReplyFailedMultiInfo : " . print_r($res, true));
