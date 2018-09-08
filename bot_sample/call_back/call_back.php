@@ -134,9 +134,9 @@ function replyImage($bot, $token, $original_url, $thum_url) {
     }
 }
 
-function replyMultiInfo($bot, $token, $msgs) {
-    $builder = new 
-}
+//function replyMultiInfo($bot, $token, $msgs) {
+//    $builder = new 
+//}
 
 // 翻訳するためのトークンを取得する関数です
 // このトークンの有効期限は、取得してから10分間と短め
