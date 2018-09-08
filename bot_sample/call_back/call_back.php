@@ -103,7 +103,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 $preview_url = $image_info["image"]["thumbnailLink"];
 //                error_log("reply_token-------- : " . print_r($reply_token, true));
                 // 画像追加
-                $ImageMessageBuilder = new ImageMessageBuilder($original_url, $thum_url);
+                $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url);
                 array_push($replyInfo, $ImageMessageBuilder);
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
