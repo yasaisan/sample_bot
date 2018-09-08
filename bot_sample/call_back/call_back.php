@@ -96,11 +96,14 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         if ($image_info_lists != null) {
             $count = 0;
             foreach ($image_info_lists as $image_info) {
-                if ($count >= 1) {
+                if ($count >= 3) {
                     break;
                 }
                 $ori_url = $image_info["link"];
                 $preview_url = $image_info["image"]["thumbnailLink"];
+                if(!preg_match('/https/',$ori_url) || !preg_match('/https/',$preview_url)){
+                    continue;
+                }
 //                error_log("reply_token-------- : " . print_r($reply_token, true));
                 // 画像追加
                 $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url);
