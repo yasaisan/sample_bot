@@ -63,6 +63,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         if (!($event instanceof TextMessage)) {
             continue;
         }
+        $replyInfo = array();
         $reply_token = $event->getReplyToken();
         error_log("InputText-------- : " . print_r($event->getText(), true));
         // 入力文字
@@ -86,7 +87,9 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         
         error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
 
-        //メッセージ返却
+        //メッセージ追加
+        $TextMessageBuilder = new TextMessageBuilder($transrateInputText);
+        array_push($replyInfo, $TextMessageBuilder);
 //        replyMessage($Bot, $reply_token, $transrateInputText);
         
         $image_info_lists = google_image($input_text)["items"];
@@ -99,14 +102,21 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 $ori_url = $image_info["link"];
                 $preview_url = $image_info["image"]["thumbnailLink"];
                 error_log("reply_token-------- : " . print_r($reply_token, true));
+                // 画像追加
+                $ImageMessageBuilder = new ImageMessageBuilder($original_url, $thum_url);
+                array_push($replyInfo, $ImageMessageBuilder);
                 //がそう返却
-                replyImage($Bot, $reply_token, $ori_url, $preview_url);
+//              replyImage($Bot, $reply_token, $ori_url, $preview_url);
                 $count++;
             }
         } else {
+            $TextMessageBuilder = new TextMessageBuilder("画像は見つかりませんでした");
+            array_push($replyInfo, $TextMessageBuilder);
             //メッセージ返却
-            replyMessage($Bot, $reply_token, "画像は見つかりませんでした");
+//            replyMessage($Bot, $reply_token, "画像は見つかりませんでした");
         }
+        // 返信
+        replyMultiInfo($Bot, $reply_token, $replyInfo);
     }
 }
 
@@ -134,9 +144,18 @@ function replyImage($bot, $token, $original_url, $thum_url) {
     }
 }
 
-//function replyMultiInfo($bot, $token, $msgs) {
-//    $builder = new 
-//}
+function replyMultiInfo($bot, $token, $msgs) {
+    $SendMessage = new MultiMessageBuilder();
+    
+    foreach ($msgs as $value) {
+        $SendMessage->add($value);
+    }
+    
+    $res = $bot->replyMessage($token, $SendMessage);
+    if (!$res->isSucceeded()) {
+        error_log("ReplyFailedMultiInfo : " . print_r($res, true));
+    }
+}
 
 // 翻訳するためのトークンを取得する関数です
 // このトークンの有効期限は、取得してから10分間と短め
