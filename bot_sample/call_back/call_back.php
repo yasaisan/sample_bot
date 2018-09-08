@@ -97,6 +97,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 }
                 $ori_url = $image_info["link"];
                 $preview_url = $image_info["image"]["thumbnailLink"];
+                error_log("image_info-------- : " . print_r($image_info, true));
                 //がそう返却
                 replyImage($Bot, $event->getReplyToken(), $ori_url, $preview_url);
                 $count++;
