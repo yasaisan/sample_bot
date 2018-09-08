@@ -27,7 +27,7 @@ $picture_data = [
 
 // ポストデータ
 $post_data = [
-	"to"       => "8520269047518",
+	"to"       => "8541054879487",
 	"messages" => [ $messeage_data, $picture_data ]
 ];
 
