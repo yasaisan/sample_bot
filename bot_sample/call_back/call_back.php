@@ -63,6 +63,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         if (!($event instanceof TextMessage)) {
             continue;
         }
+        $reply_token = $event->getReplyToken();
         error_log("InputText-------- : " . print_r($event->getText(), true));
         // 入力文字
         $input_text = $event->getText();
@@ -86,9 +87,9 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
 
         //メッセージ返却
-        replyMessage($Bot, $event->getReplyToken(), $transrateInputText);
+        replyMessage($Bot, $reply_token, $transrateInputText);
         
-        $image_info_lists = google_image("apple")["items"];
+        $image_info_lists = google_image($input_text)["items"];
         if ($image_info_lists != null) {
             $count = 0;
             foreach ($image_info_lists as $image_info) {
@@ -99,12 +100,12 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 $preview_url = $image_info["image"]["thumbnailLink"];
                 error_log("image_info-------- : " . print_r($image_info, true));
                 //がそう返却
-                replyImage($Bot, $event->getReplyToken(), $ori_url, $preview_url);
+                replyImage($Bot, $reply_token, $ori_url, $preview_url);
                 $count++;
             }
         } else {
             //メッセージ返却
-            replyMessage($Bot, $event->getReplyToken(), "画像は見つかりませんでした");
+            replyMessage($Bot, $reply_token, "画像は見つかりませんでした");
         }
     }
 }
@@ -125,7 +126,7 @@ function replyMessage($bot, $token, $send_message) {
 // シンプル画像返却
 function replyImage($bot, $token, $original_url, $thum_url) {
     
-    $ImageMessageBuilder = new ImageMessageBuilder($original_url, $original_url);
+    $ImageMessageBuilder = new ImageMessageBuilder($original_url, $thum_url);
     
     $res = $bot->replyMessage($token, $ImageMessageBuilder);
     if (!$res->isSucceeded()) {
