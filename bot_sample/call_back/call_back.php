@@ -112,8 +112,12 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 // 画像追加
 //                $image_carousel_info = array();
 //                $image_carousel_info["imageUrl"] = $ori_url;
-//              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url);
-                $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $TextMessageBuilder);
+//              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url
+                $sample = array (
+                    "type"=>"text",
+                    "text"=>"Hello, user"
+                );
+                $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $sample);
                 array_push($image_carousel_info, $ImageCarouselColumnTemplateBuilder);
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
