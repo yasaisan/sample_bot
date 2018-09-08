@@ -85,14 +85,25 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         
         error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
 
-        if ($input_text == "asai") {
-            //メッセージ返却
-            replyMessage($Bot, $event->getReplyToken(), $transrateInputText);
+        //メッセージ返却
+        replyMessage($Bot, $event->getReplyToken(), $transrateInputText);
+        
+        $image_info_lists = google_image("apple")["items"];
+        if ($image_info_lists != null) {
+            $count = 0;
+            foreach ($image_info_lists as $image_info) {
+                if ($count >= 3) {
+                    break;
+                }
+                $ori_url = $image_info["link"];
+                $preview_url = $image_info["image"]["thumbnailLink"];
+                //がそう返却
+                replyImage($Bot, $event->getReplyToken(), $ori_url, $preview_url);
+                $count++;
+            }
         } else {
-            $ori_url = "https://upload.wikimedia.org/wikipedia/commons/2/27/Sus_scrofa_domesticus%2C_miniature_pig%2C_juvenile.jpg";
-            $preview_url = "https://upload.wikimedia.org/wikipedia/commons/2/27/Sus_scrofa_domesticus%2C_miniature_pig%2C_juvenile.jpg";
-            //がそう返却
-            replyImage($Bot, $event->getReplyToken(), $ori_url, $preview_url);
+            //メッセージ返却
+            replyMessage($Bot, $event->getReplyToken(), "画像は見つかりませんでした");
         }
     }
 }
@@ -152,4 +163,14 @@ function curlRequest($url) {
     $curlResponse = curl_exec($ch);
     curl_close($ch);
     return $curlResponse;
+}
+
+function google_image($word) {
+    // TODO: キーの外だし
+    $baseurl = "https://www.googleapis.com/customsearch/v1?";
+    $baseurl .= "key=AIzaSyCqe72UGyiLECERkWVTvOLXdFJxYvVspTI&cx=016901115011056515106:6pjbegaiuga&searchType=image&q=";
+    $myurl = $baseurl . urlencode($word);
+    $myjson = file_get_contents($myurl);
+    $recs = json_decode($myjson, true);
+    return $recs;
 }
