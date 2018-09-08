@@ -42,7 +42,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
     //LINEBOTにPOSTで送られてきた生データの取得
     $inputData = file_get_contents("php://input");
     
-    error_log("inputData-------- : " . print_r($inputData,true));
+//    error_log("inputData-------- : " . print_r($inputData,true));
     
     //LINEBOTSDKの設定
     $httpClient = new CurlHTTPClient(ACCESS_TOKEN);
@@ -81,7 +81,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         // 翻訳を実行
         $curlResponse = curlRequest($translateUrl);
         
-        error_log("curlResponse-------- : " . print_r($curlResponse, true));
+//        error_log("curlResponse-------- : " . print_r($curlResponse, true));
         preg_match('/>(.+?)<\/string>/',$curlResponse, $m);
         $transrateInputText = $m[1];
         
@@ -101,7 +101,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 }
                 $ori_url = $image_info["link"];
                 $preview_url = $image_info["image"]["thumbnailLink"];
-                error_log("reply_token-------- : " . print_r($reply_token, true));
+//                error_log("reply_token-------- : " . print_r($reply_token, true));
                 // 画像追加
                 $ImageMessageBuilder = new ImageMessageBuilder($original_url, $thum_url);
                 array_push($replyInfo, $ImageMessageBuilder);
@@ -115,6 +115,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
             //メッセージ返却
 //            replyMessage($Bot, $reply_token, "画像は見つかりませんでした");
         }
+         error_log("replyInfo-------- : " . print_r($replyInfo, true));
         // 返信
         replyMultiInfo($Bot, $reply_token, $replyInfo);
     }
