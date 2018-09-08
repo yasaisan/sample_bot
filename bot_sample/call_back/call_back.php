@@ -98,6 +98,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         $image_info_lists = google_image($input_text)["items"];
         if ($image_info_lists != null) {
             $count = 0;
+            $image_carousel_info = array();
             foreach ($image_info_lists as $image_info) {
                 if ($count >= 3) {
                     break;
@@ -109,17 +110,17 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 }
 //                error_log("reply_token-------- : " . print_r($reply_token, true));
                 // 画像追加
-                $image_carousel_info = array();
-                $image_carousel_info["imageUrl"] = $ori_url;
+//                $image_carousel_info = array();
+//                $image_carousel_info["imageUrl"] = $ori_url;
 //              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url);
                 $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, new TextMessageBuilder($transrateInputText));
-//                array_push($replyInfo, $ImageCarouselTemplateBuilder);
+                array_push($image_carousel_info, $ImageCarouselTemplateBuilder);
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
                 $count++;
             }
             $TemplateMessageBuilder = new TemplateMessageBuilder(
-                    'alt test', new ImageCarouselTemplateBuilder($ImageCarouselColumnTemplateBuilder)
+                    'alt test', new ImageCarouselTemplateBuilder($image_carousel_info)
             );
             array_push($replyInfo, $ImageCarouselTemplateBuilder);
         } else {
