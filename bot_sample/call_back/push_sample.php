@@ -44,7 +44,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 $result = curl_exec($ch);
 $result = json_decode($result);
 curl_close($ch);
-
+error_log("Result-------- : " . print_r($result,true));
 if( isset($result->message) ){
 	// エラー処理： $result-&gt;messageにエラーメッセージが入っている。
 }
