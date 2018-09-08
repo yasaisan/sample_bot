@@ -8,6 +8,7 @@ use \LINE\LINEBot;
 use LINE\LINEBot\Event\MessageEvent\TextMessage;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
 use LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 use \LINE\LINEBot\Constant\HTTPHeader;
 
@@ -106,7 +107,10 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 }
 //                error_log("reply_token-------- : " . print_r($reply_token, true));
                 // 画像追加
-                $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url);
+                $image_carousel_info = array();
+                $image_carousel_info["imageUrl"] = $ori_url;
+//              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url);
+                $ImageCarouselTemplateBuilder = new ImageCarouselTemplateBuilder($image_carousel_info);
                 array_push($replyInfo, $ImageMessageBuilder);
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
