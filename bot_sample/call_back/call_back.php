@@ -133,7 +133,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
             //メッセージ返却
 //            replyMessage($Bot, $reply_token, "画像は見つかりませんでした");
         }
-//         error_log("replyInfo-------- : " . print_r($replyInfo, true));
+         error_log("replyInfo-------- : " . print_r($replyInfo, true));
         // 返信
         replyMultiInfo($Bot, $reply_token, $replyInfo);
     }
