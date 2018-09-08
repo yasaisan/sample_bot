@@ -122,14 +122,14 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
             $TemplateMessageBuilder = new TemplateMessageBuilder(
                     'alt test', new ImageCarouselTemplateBuilder($image_carousel_info)
             );
-//            array_push($replyInfo, $TemplateMessageBuilder);
+            array_push($replyInfo, $TemplateMessageBuilder);
         } else {
             $TextMessageBuilder = new TextMessageBuilder("画像は見つかりませんでした");
             array_push($replyInfo, $TextMessageBuilder);
             //メッセージ返却
 //            replyMessage($Bot, $reply_token, "画像は見つかりませんでした");
         }
-         error_log("replyInfo-------- : " . print_r($replyInfo, true));
+//         error_log("replyInfo-------- : " . print_r($replyInfo, true));
         // 返信
         replyMultiInfo($Bot, $reply_token, $replyInfo);
     }
@@ -165,7 +165,7 @@ function replyMultiInfo($bot, $token, $msgs) {
     foreach ($msgs as $value) {
         $SendMessage->add($value);
     }
-    
+    error_log("SendMessage-------- : " . print_r($SendMessage, true));
     $res = $bot->replyMessage($token, $SendMessage);
     if (!$res->isSucceeded()) {
         error_log("ReplyFailedMultiInfo : " . print_r($res, true));
