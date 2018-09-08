@@ -85,13 +85,15 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         
         error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
 
-        //メッセージ返却
-//        replyMessage($bot, $event->getReplyToken(), $transrateInputText);
-        $ori_url = "https://upload.wikimedia.org/wikipedia/commons/2/27/Sus_scrofa_domesticus%2C_miniature_pig%2C_juvenile.jpg";
-	$preview_url = "https://upload.wikimedia.org/wikipedia/commons/2/27/Sus_scrofa_domesticus%2C_miniature_pig%2C_juvenile.jpg";
-
-        //がそう返却
-        replyImage($bot, $event->getReplyToken(), $ori_url, $preview_url);
+        if ($input_text == "asai") {
+            //メッセージ返却
+            replyMessage($bot, $event->getReplyToken(), $transrateInputText);
+        } else {
+            $ori_url = "https://upload.wikimedia.org/wikipedia/commons/2/27/Sus_scrofa_domesticus%2C_miniature_pig%2C_juvenile.jpg";
+            $preview_url = "https://upload.wikimedia.org/wikipedia/commons/2/27/Sus_scrofa_domesticus%2C_miniature_pig%2C_juvenile.jpg";
+            //がそう返却
+            replyImage($bot, $event->getReplyToken(), $ori_url, $preview_url);
+        }
     }
 }
 
