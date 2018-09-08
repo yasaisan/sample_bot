@@ -7,8 +7,10 @@ use \LINE\LINEBot;
 //use LINE\LINEBot\Event\MessageEvent;
 use LINE\LINEBot\Event\MessageEvent\TextMessage;
 use LINE\LINEBot\MessageBuilder\TextMessageBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateMessageBuilder;
 use LINE\LINEBot\MessageBuilder\ImageMessageBuilder;
 use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselTemplateBuilder;
+use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuilder;
 use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 use \LINE\LINEBot\Constant\HTTPHeader;
 
@@ -110,12 +112,16 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 $image_carousel_info = array();
                 $image_carousel_info["imageUrl"] = $ori_url;
 //              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url);
-                $ImageCarouselTemplateBuilder = new ImageCarouselTemplateBuilder($image_carousel_info);
-                array_push($replyInfo, $ImageCarouselTemplateBuilder);
+                $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, new TextMessageBuilder($transrateInputText));
+//                array_push($replyInfo, $ImageCarouselTemplateBuilder);
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
                 $count++;
             }
+            $TemplateMessageBuilder = new TemplateMessageBuilder(
+                    'alt test', new ImageCarouselTemplateBuilder($ImageCarouselColumnTemplateBuilder)
+            );
+            array_push($replyInfo, $ImageCarouselTemplateBuilder);
         } else {
             $TextMessageBuilder = new TextMessageBuilder("画像は見つかりませんでした");
             array_push($replyInfo, $TextMessageBuilder);
