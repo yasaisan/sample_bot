@@ -87,13 +87,13 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
 
         //メッセージ返却
-        replyMessage($Bot, $reply_token, $transrateInputText);
+//        replyMessage($Bot, $reply_token, $transrateInputText);
         
         $image_info_lists = google_image($input_text)["items"];
         if ($image_info_lists != null) {
             $count = 0;
             foreach ($image_info_lists as $image_info) {
-                if ($count >= 3) {
+                if ($count >= 1) {
                     break;
                 }
                 $ori_url = $image_info["link"];
@@ -125,13 +125,17 @@ function replyMessage($bot, $token, $send_message) {
 
 // シンプル画像返却
 function replyImage($bot, $token, $original_url, $thum_url) {
-    
+    $SendMessage = new MultiMessageBuilder();
     $ImageMessageBuilder = new ImageMessageBuilder($original_url, $thum_url);
-    
-    $res = $bot->replyMessage($token, $ImageMessageBuilder);
+    $SendMessage->add($ImageMessageBuilder);
+    $res = $bot->replyMessage($token, $SendMessage);
     if (!$res->isSucceeded()) {
         error_log("ReplyFailedImage : " . print_r($res, true));
     }
+}
+
+function replyMultiInfo($bot, $token, $msgs) {
+    $builder = new 
 }
 
 // 翻訳するためのトークンを取得する関数です
