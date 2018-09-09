@@ -128,7 +128,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
             }
 //            error_log("image_carousel_info-------- : " . print_r($image_carousel_info, true));
             $TemplateMessageBuilder = new TemplateMessageBuilder(
-                    '翻訳単語の関連画像', new ImageCarouselTemplateBuilder($image_carousel_info)
+                    $transrateInputText . 'の関連画像', new ImageCarouselTemplateBuilder($image_carousel_info)
             );
             array_push($replyInfo, $TemplateMessageBuilder);
         } else {
