@@ -139,10 +139,10 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         } else {
             $code = '100015';
             // 16進エンコードされたバイナリ文字列をデコード
-            $bin = hex2bin(str_repeat('0', 8 - strlen($code)) . $code);
-            // UTF8へエンコード
-            $emoticon = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
-            $TextMessageBuilder = new TextMessageBuilder("英語のみ入力してね" . $emoticon);
+//            $bin = hex2bin(str_repeat('0', 8 - strlen($code)) . $code);
+//            // UTF8へエンコード
+//            $emoticon = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
+            $TextMessageBuilder = new TextMessageBuilder("英語のみ入力してね" . "\uDBC0\uDC15");
             array_push($replyInfo, $TextMessageBuilder);
         }
 //         error_log("replyInfo-------- : " . print_r($replyInfo, true));
