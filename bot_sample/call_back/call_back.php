@@ -70,7 +70,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         }
         $replyInfo = array();
         $reply_token = $event->getReplyToken();
-//        error_log("InputText-------- : " . print_r($event->getText(), true));
+        error_log("InputText-------- : " . print_r($event->getText(), true));
         // 入力文字
         $input_text = $event->getText();
         if(!preg_match( "/[一-龠]+|[ぁ-ん]+|[ァ-ヴー]+|[ａ-ｚＡ-Ｚ０-９]+/u", $input_text) ){
