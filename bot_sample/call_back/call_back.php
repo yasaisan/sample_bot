@@ -73,43 +73,42 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 //        error_log("InputText-------- : " . print_r($event->getText(), true));
         // 入力文字
         $input_text = $event->getText();
-        
-        // 翻訳処理
-        // 翻訳するためのトークンを取得します。有効期限は取得後10分間です
-        $accessToken = getToken($azure_key);
-        // 翻訳するための文字列を生成します
-        $params = "text=" . urlencode($input_text) . "&to=" . $toLanguage . "&from=" . $fromLanguage . "&appId=Bearer+" . $accessToken;
-        // 翻訳するためのURLを生成
-        $translateUrl = "http://api.microsofttranslator.com/v2/Http.svc/Translate?" . $params;
-        // 翻訳を実行
-        $curlResponse = curlRequest($translateUrl);
-        
-//        error_log("curlResponse-------- : " . print_r($curlResponse, true));
-        preg_match('/>(.+?)<\/string>/',$curlResponse, $m);
-        $transrateInputText = $m[1];
-        
-//        error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
+        if(!preg_match( "/[一-龠]+|[ぁ-ん]+|[ァ-ヴー]+|[ａ-ｚＡ-Ｚ０-９]+/u", $str) ){
+            // 翻訳処理
+            // 翻訳するためのトークンを取得します。有効期限は取得後10分間です
+            $accessToken = getToken($azure_key);
+            // 翻訳するための文字列を生成します
+            $params = "text=" . urlencode($input_text) . "&to=" . $toLanguage . "&from=" . $fromLanguage . "&appId=Bearer+" . $accessToken;
+            // 翻訳するためのURLを生成
+            $translateUrl = "http://api.microsofttranslator.com/v2/Http.svc/Translate?" . $params;
+            // 翻訳を実行
+            $curlResponse = curlRequest($translateUrl);
 
-        //メッセージ追加
-        $TextMessageBuilder = new TextMessageBuilder($transrateInputText);
-        array_push($replyInfo, $TextMessageBuilder);
+//        error_log("curlResponse-------- : " . print_r($curlResponse, true));
+            preg_match('/>(.+?)<\/string>/', $curlResponse, $m);
+            $transrateInputText = $m[1];
+
+//        error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
+            //メッセージ追加
+            $TextMessageBuilder = new TextMessageBuilder($transrateInputText);
+            array_push($replyInfo, $TextMessageBuilder);
 //        replyMessage($Bot, $reply_token, $transrateInputText);
-        
-        $image_info_lists = google_image($input_text)["items"];
-        if ($image_info_lists != null) {
-            $count = 0;
-            $image_carousel_info = array();
-            foreach ($image_info_lists as $image_info) {
-                if ($count >= 3) {
-                    break;
-                }
-                $ori_url = $image_info["link"];
-                $preview_url = $image_info["image"]["thumbnailLink"];
-                if(!preg_match('/https/',$ori_url) || !preg_match('/https/',$preview_url)){
-                    continue;
-                }
+
+            $image_info_lists = google_image($input_text)["items"];
+            if ($image_info_lists != null) {
+                $count = 0;
+                $image_carousel_info = array();
+                foreach ($image_info_lists as $image_info) {
+                    if ($count >= 3) {
+                        break;
+                    }
+                    $ori_url = $image_info["link"];
+                    $preview_url = $image_info["image"]["thumbnailLink"];
+                    if (!preg_match('/https/', $ori_url) || !preg_match('/https/', $preview_url)) {
+                        continue;
+                    }
 //                error_log("reply_token-------- : " . print_r($reply_token, true));
-                // 画像追加
+                    // 画像追加
 //                $image_carousel_info = array();
 //                $image_carousel_info["imageUrl"] = $ori_url;
 //              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url
@@ -118,24 +117,33 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 //                    "label"=>"lebel",
 //                    "text"=>"text"
 //                );
-                $MessageTemplateActionBuilder = new MessageTemplateActionBuilder($transrateInputText, $input_text);
-                $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $MessageTemplateActionBuilder);
-                array_push($image_carousel_info, $ImageCarouselColumnTemplateBuilder);
-                //がそう返却
+                    $MessageTemplateActionBuilder = new MessageTemplateActionBuilder($transrateInputText, $input_text);
+                    $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $MessageTemplateActionBuilder);
+                    array_push($image_carousel_info, $ImageCarouselColumnTemplateBuilder);
+                    //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
-                $count++;
+                    $count++;
 //                error_log("image_carousel_info-------- : " . print_r($image_carousel_info, true));
-            }
+                }
 //            error_log("image_carousel_info-------- : " . print_r($image_carousel_info, true));
-            $TemplateMessageBuilder = new TemplateMessageBuilder(
-                    '『' . $transrateInputText . '』の関連画像', new ImageCarouselTemplateBuilder($image_carousel_info)
-            );
-            array_push($replyInfo, $TemplateMessageBuilder);
-        } else {
-            $TextMessageBuilder = new TextMessageBuilder("画像は見つかりませんでした");
-            array_push($replyInfo, $TextMessageBuilder);
-            //メッセージ返却
+                $TemplateMessageBuilder = new TemplateMessageBuilder(
+                        '『' . $transrateInputText . '』の関連画像', new ImageCarouselTemplateBuilder($image_carousel_info)
+                );
+                array_push($replyInfo, $TemplateMessageBuilder);
+            } else {
+                $TextMessageBuilder = new TextMessageBuilder("画像は見つかりませんでした");
+                array_push($replyInfo, $TextMessageBuilder);
+                //メッセージ返却
 //            replyMessage($Bot, $reply_token, "画像は見つかりませんでした");
+            }
+        } else {
+            $code = '100015';
+            // 16進エンコードされたバイナリ文字列をデコード
+            $bin = hex2bin(str_repeat('0', 8 - strlen($code)) . $code);
+            // UTF8へエンコード
+            $emoticon = mb_convert_encoding($bin, 'UTF-8', 'UTF-32BE');
+            $TextMessageBuilder = new TextMessageBuilder("英語のみ入力してね" . $emoticon);
+            array_push($replyInfo, $TextMessageBuilder);
         }
 //         error_log("replyInfo-------- : " . print_r($replyInfo, true));
         // 返信
