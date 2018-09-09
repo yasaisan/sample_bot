@@ -73,7 +73,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 //        error_log("InputText-------- : " . print_r($event->getText(), true));
         // 入力文字
         $input_text = $event->getText();
-        if(!preg_match( "/[一-龠]+|[ぁ-ん]+|[ァ-ヴー]+|[ａ-ｚＡ-Ｚ０-９]+/u", $str) ){
+        if(!preg_match( "/[一-龠]+|[ぁ-ん]+|[ァ-ヴー]+|[ａ-ｚＡ-Ｚ０-９]+/u", $input_text) ){
             // 翻訳処理
             // 翻訳するためのトークンを取得します。有効期限は取得後10分間です
             $accessToken = getToken($azure_key);
