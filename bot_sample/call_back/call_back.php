@@ -75,10 +75,8 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         // 翻訳処理
         // 翻訳するためのトークンを取得します。有効期限は取得後10分間です
         $accessToken = getToken($azure_key);
-
-           // 翻訳するための文字列を生成します
+        // 翻訳するための文字列を生成します
         $params = "text=" . urlencode($input_text) . "&to=" . $toLanguage . "&from=" . $fromLanguage . "&appId=Bearer+" . $accessToken;
-
         // 翻訳するためのURLを生成
         $translateUrl = "http://api.microsofttranslator.com/v2/Http.svc/Translate?" . $params;
         // 翻訳を実行
@@ -123,8 +121,9 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
                 $count++;
-                error_log("image_carousel_info-------- : " . print_r($image_carousel_info, true));
+//                error_log("image_carousel_info-------- : " . print_r($image_carousel_info, true));
             }
+//            error_log("image_carousel_info-------- : " . print_r($image_carousel_info, true));
             $TemplateMessageBuilder = new TemplateMessageBuilder(
                     'alt test', new ImageCarouselTemplateBuilder($image_carousel_info)
             );
