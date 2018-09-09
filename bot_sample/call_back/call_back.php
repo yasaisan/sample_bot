@@ -114,8 +114,9 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 //                $image_carousel_info["imageUrl"] = $ori_url;
 //              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url
                 $sample = array (
-                    "type"=>"text",
-                    "text"=>"Hello, user"
+                    "type"=>"message",
+                    "label"=>"lebel",
+                    "text"=>"text"
                 );
                 $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $sample);
                 array_push($image_carousel_info, $ImageCarouselColumnTemplateBuilder);
