@@ -140,7 +140,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
             $code = '100005';
 //            $bin = hex2bin(str_repeat('0', 8 - strlen($code)) . $code);
 //            $emoticon = mb_convert_encoding($bin, 'UTF-8', 'UTF-32');
-            $emoticon = json_decode('["\uD83C\uDF00"]', true)[0];
+            $emoticon = json_decode('["\uD83C\uDF15"]', true)[0];
             $TextMessageBuilder = new TextMessageBuilder("英語のみ入力してね" . $emoticon);
             array_push($replyInfo, $TextMessageBuilder);
         }
