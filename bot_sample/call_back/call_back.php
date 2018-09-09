@@ -70,7 +70,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         }
         $replyInfo = array();
         $reply_token = $event->getReplyToken();
-        error_log("InputText-------- : " . print_r($event->getText(), true));
+//        error_log("InputText-------- : " . print_r($event->getText(), true));
         // 入力文字
         $input_text = $event->getText();
         
@@ -88,7 +88,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
         preg_match('/>(.+?)<\/string>/',$curlResponse, $m);
         $transrateInputText = $m[1];
         
-        error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
+//        error_log("transrateInputText-------- : " . print_r($transrateInputText, true));
 
         //メッセージ追加
         $TextMessageBuilder = new TextMessageBuilder($transrateInputText);
@@ -118,7 +118,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 //                    "label"=>"lebel",
 //                    "text"=>"text"
 //                );
-                $MessageTemplateActionBuilder = new MessageTemplateActionBuilder("lebel", "text");
+                $MessageTemplateActionBuilder = new MessageTemplateActionBuilder("", $input_text);
                 $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $MessageTemplateActionBuilder);
                 array_push($image_carousel_info, $ImageCarouselColumnTemplateBuilder);
                 //がそう返却
