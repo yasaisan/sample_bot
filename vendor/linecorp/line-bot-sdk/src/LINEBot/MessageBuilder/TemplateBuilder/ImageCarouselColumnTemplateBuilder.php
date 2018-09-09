@@ -59,7 +59,6 @@ class ImageCarouselColumnTemplateBuilder implements TemplateBuilder
             return $this->template;
         }
 
-        error_log("buildTemplateAction-------- : " . print_r($this->actionBuilder->buildTemplateAction(), true));
         $this->template = [
             'imageUrl' => $this->imageUrl,
             'action' => $this->actionBuilder->buildTemplateAction(),

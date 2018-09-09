@@ -14,6 +14,8 @@ use LINE\LINEBot\MessageBuilder\TemplateBuilder\ImageCarouselColumnTemplateBuild
 use LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
 use \LINE\LINEBot\Constant\HTTPHeader;
 
+use LINE\LINEBot\TemplateActionBuilder\MessageTemplateActionBuilder;;
+
 //LINESDKの読み込み
 require_once(__DIR__."/../../vendor/autoload.php");
 
@@ -111,12 +113,13 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 //                $image_carousel_info = array();
 //                $image_carousel_info["imageUrl"] = $ori_url;
 //              $ImageMessageBuilder = new ImageMessageBuilder($ori_url, $preview_url
-                $sample = array (
-                    "type"=>"message",
-                    "label"=>"lebel",
-                    "text"=>"text"
-                );
-                $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $sample);
+//                $sample = array (
+//                    "type"=>"message",
+//                    "label"=>"lebel",
+//                    "text"=>"text"
+//                );
+                $MessageTemplateActionBuilder = new MessageTemplateActionBuilder("lebel", "text");
+                $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $MessageTemplateActionBuilder);
                 array_push($image_carousel_info, $ImageCarouselColumnTemplateBuilder);
                 //がそう返却
 //              replyImage($Bot, $reply_token, $ori_url, $preview_url);
