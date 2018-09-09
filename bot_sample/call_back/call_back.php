@@ -118,7 +118,7 @@ if(isset($_SERVER["HTTP_".HTTPHeader::LINE_SIGNATURE])){
 //                    "label"=>"lebel",
 //                    "text"=>"text"
 //                );
-                $MessageTemplateActionBuilder = new MessageTemplateActionBuilder("", $input_text);
+                $MessageTemplateActionBuilder = new MessageTemplateActionBuilder($transrateInputText, $input_text);
                 $ImageCarouselColumnTemplateBuilder = new ImageCarouselColumnTemplateBuilder($ori_url, $MessageTemplateActionBuilder);
                 array_push($image_carousel_info, $ImageCarouselColumnTemplateBuilder);
                 //がそう返却
